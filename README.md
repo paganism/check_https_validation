@@ -12,8 +12,8 @@ https://something-else.com
 ```
 Delimiter is '\n'.
 
-Script read this file and transform data to list. After script tries to get every url in list asynchronously with ssl verification.
-If verification proceed, url writes to file in current directory with name 'Valid', otherwise 'Unvalid'.
+Script reads this file and transform data to list. After that script tries to get every url data in list asynchronously with ssl verification.
+If verification succeeded, url writes to file with name 'Valid' in current directory, otherwise 'Unvalid'.
 
 Script is written for python3.6.
 
