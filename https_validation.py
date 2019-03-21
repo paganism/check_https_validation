@@ -1,9 +1,21 @@
 import asyncio
 import aiohttp
 from time import time
+import argparse
 
-VALID_FILENAME = 'valid'
-INVALID_FILENAME = 'invalid'
+VALID_FILENAME = 'Valid'
+INVALID_FILENAME = 'Unvalid'
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--path',
+        dest='path',
+        required=True,
+        help='Path to urls file'
+    )
+    return parser.parse_args()
 
 
 def file_read(filename):
@@ -46,7 +58,12 @@ async def main2(url_list):
 
 
 if __name__ == '__main__':
-    url_list = file_read('hosts.txt')
+    args = parse_arguments()
+    
+    if not os.path.exists(args.path):
+        sys.exit('File not found')
+    
+    url_list = file_read(args.path)
     t0 = time()
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main2(url_list))
