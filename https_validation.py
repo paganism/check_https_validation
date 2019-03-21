@@ -2,6 +2,7 @@ import asyncio
 import aiohttp
 from time import time
 import argparse
+import os
 
 VALID_FILENAME = 'Valid'
 INVALID_FILENAME = 'Unvalid'
