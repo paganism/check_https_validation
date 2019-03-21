@@ -40,7 +40,7 @@ async def fetch_content(url, session):
                 verify_ssl=True,
         ) as response:
             data = await response.read()
-            
+
             write_result(url, VALID_FILENAME)
 
     except (aiohttp.client_exceptions.ClientConnectorError,
@@ -62,10 +62,10 @@ async def main(url_list):
 
 if __name__ == '__main__':
     args = parse_arguments()
-    
+
     if not os.path.exists(args.path):
         sys.exit('File not found')
-    
+
     url_list = get_url_list_from_file(args.path)
 
     t0 = time()
