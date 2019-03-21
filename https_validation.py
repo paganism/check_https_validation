@@ -3,6 +3,7 @@ import aiohttp
 from time import time
 import argparse
 import os
+import sys
 
 VALID_FILENAME = 'Valid'
 INVALID_FILENAME = 'Unvalid'
@@ -19,7 +20,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def file_read(filename):
+def get_url_list_from_file(filename):
     with open(filename, 'r') as file:
         urls_list = file.read().split('\n')
         return urls_list
@@ -35,7 +36,8 @@ async def fetch_content(url, session):
         async with session.get(
                 url,
                 allow_redirects=False,
-                verify_ssl=True
+                ssl=True,
+                verify_ssl=True,
         ) as response:
             data = await response.read()
             
@@ -47,7 +49,7 @@ async def fetch_content(url, session):
         write_result(url, INVALID_FILENAME)
 
 
-async def main2(url_list):
+async def main(url_list):
     tasks = []
 
     async with aiohttp.ClientSession() as session:
@@ -64,9 +66,11 @@ if __name__ == '__main__':
     if not os.path.exists(args.path):
         sys.exit('File not found')
     
-    url_list = file_read(args.path)
+    url_list = get_url_list_from_file(args.path)
+
     t0 = time()
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main2(url_list))
+    loop.run_until_complete(main(url_list))
     loop.close()
-    print(time() - t0)
+
+    print('Elapsed time: {}'.format(time() - t0))
