@@ -62,12 +62,23 @@ async def fetch_content(url, session):
         return {'invalid': url}
 
 
+async def bound_fetch(sem, url, session):
+
+    try:
+        async with sem:
+            return await fetch_content(url, session)
+    except Exception as e:
+        print(e)
+
+
 async def main(url_list):
     tasks = []
 
+    sem = asyncio.Semaphore(100)
+
     async with aiohttp.ClientSession() as session:
         for url in url_list:
-            task = asyncio.ensure_future(fetch_content(url, session))
+            task = asyncio.ensure_future(bound_fetch(sem, url, session))
             tasks.append(task)
 
         sites_statistics = await asyncio.gather(*tasks)
