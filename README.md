@@ -12,6 +12,9 @@ https://something-else.com
 ```
 Delimiter is '\n'.
 
+Path to file with valid urls.
+Path to file with invalid urls.
+
 Script reads this file and transform data to list. After that script tries to get every url data in list asynchronously with ssl verification.
 If verification succeeded, url writes to file with name 'Valid' in current directory, otherwise 'Unvalid'.
 
@@ -36,7 +39,7 @@ $ pip install -r requirements.txt
 ```
 5. Run script
 ```
-$ python3.6 https_validation.py --path /home/user/hosts.txt
+$ python3.6 https_validation.py --path /home/user/hosts.txt --valid valid.txt --invalid invalid.txt
 ```
 After that in project directory you will see 2 output files: 'Valid' and 'Unvalid'.
 Don't forget to create hosts.txt or modify file from repository.
